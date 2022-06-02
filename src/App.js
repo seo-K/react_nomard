@@ -1,45 +1,52 @@
-import React from 'react';
-import axois from 'axios';
+import React from "react";
+import axois from "axios";
 import PropTypes from "prop-types"; //컴포넌트 연결 실수  검사해주는 똑똑한 애 (console로 알 수있음)
-import './App.css';
+import "./App.css";
 import Movie from "./Movie";
 import styled from "styled-components";
 
-class App extends React.Component{
-  //바꿀 데이터를 state 안에 넣는다
-  state = {
-    isLoading: true,
-    movies: []
-  };
+class App extends React.Component {
+    //바꿀 데이터를 state 안에 넣는다
+    state = {
+        isLoading: true,
+        movies: [],
+    };
 
-  //movies가 시간이 오래걸린다고 알려주는 async / await ! 이거 자바스크립트에서 배웠긴함
-  getMovies = async() => {
-    const {
-      data: {
-        data: { movies }
-      }
-    } = await axois.get("http://yts-proxy.now.sh/list_movies.json?sort_by=rating");
-    // console.log(movies.data.data.movies)
-    // console.log(movies)
-    // this.setState({ movies : movies }) 와 같다.
-    this.setState({ movies, isLoading : false })
-  }
-  componentDidMount(){
-    this.getMovies();
-  }
+    //movies가 시간이 오래걸린다고 알려주는 async / await ! 이거 자바스크립트에서 배웠긴함
+    getMovies = async () => {
+        const {
+            data: {
+                data: { movies },
+            },
+        } = await axois.get("http://yts-proxy.now.sh/list_movies.json?sort_by=rating");
+        // console.log(movies.data.data.movies)
+        // console.log(movies)
+        // this.setState({ movies : movies }) 와 같다.
+        this.setState({ movies, isLoading: false });
+    };
+    componentDidMount() {
+        this.getMovies();
+    }
 
-  // componentDidMount(){
-  //   setTimeout( () => {
-  //     this.setState({ isLoading : false});
-  //   }, 6000);
-  // }
+    // componentDidMount(){
+    //   setTimeout( () => {
+    //     this.setState({ isLoading : false});
+    //   }, 6000);
+    // }
 
-  render(){
-    const {isLoading, movies} = this.state;
-    return <div> {isLoading ? "Loading" : movies.map(movie =>
-      <Movie key={movie.id} id={movie.id} year={movie.year} title={movie.title} summary={movie.summary} poster={movie.medium_cover_image} />
-    )}</div>;
-  }
+    render() {
+        const { isLoading, movies } = this.state;
+        return (
+            <div>
+                {" "}
+                {isLoading
+                    ? "Loading"
+                    : movies.map((movie) => (
+                          <Movie key={movie.id} id={movie.id} year={movie.year} title={movie.title} summary={movie.summary} poster={movie.medium_cover_image} />
+                      ))}
+            </div>
+        );
+    }
 }
 export default App;
 
